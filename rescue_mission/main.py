@@ -7,10 +7,10 @@ import sqlite3
 conn = sqlite3.connect('database.db')
 print("Opened database successfully")
 
-# conn.execute('CREATE TABLE rescue_mission (district TEXT,name TEXT, addr TEXT, \
-#                city TEXT, pin TEXT, phone TEXT, alt_phone TEXT, no_people SMALLINT, \
-#                no_kids SMALLINT, no_elderly SMALLINT, sick SMALLINT, preg SMALLINT, \
-#                special TEXT, approx_time TEXT, stats TEXT)')
+# conn.execute('CREATE TABLE rescue_kerala (emergency TEXT, district TEXT,name TEXT, addr TEXT, \
+               # pin TEXT, phone TEXT, alt_phone TEXT, no_people SMALLINT, \
+               # no_kids SMALLINT, no_elderly SMALLINT, sick SMALLINT, preg SMALLINT, \
+               # special TEXT, approx_time TEXT, stats TEXT)')
 
 # print("Table created successfully")
 conn.close()
@@ -27,15 +27,26 @@ def new_student():
 def addrec():
    if request.method == 'POST':
       try:
-         nm = request.form['nm']
-         addr = request.form['add']
-         city = request.form['city']
+         emergency_ = request.form['emer']
+         district_ = request.form['dist']
+         name_ = request.form['nme']
+         address_ = request.form['add']
+         phone_ = request.form['phone_']
+         alt_phone_ = request.form['alt_phone_']
          pin = request.form['pin']
+         kids_ = request.form['kids']
+         total_ = request.form['total_']
+         elderly_ = request.form['elderly_']
+         pregnent_ = request.form['pregnent_']
+         sick_ = request.form['sick_']
          
          with sql.connect("database.db") as con:
             cur = con.cursor()
             
-            cur.execute("INSERT INTO students (name,addr,city,pin) VALUES (?,?,?,?)",(nm,addr,city,pin) )
+            cur.execute("INSERT INTO rescue_kerala \
+                        (emergency, district,name, addr,pin, phone, alt_phone\
+                        no_people, no_kids, no_elderly, sick, preg, \
+                        ) VALUES (?,?,?,?)",(nm,addr,city,pin) )
             
             con.commit()
             msg = "Record successfully added"

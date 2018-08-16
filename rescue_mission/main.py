@@ -5,11 +5,15 @@ app = Flask(__name__)
 import sqlite3
 
 conn = sqlite3.connect('database.db')
-# print("Opened database successfully")
+print("Opened database successfully")
 
-# conn.execute('CREATE TABLE students (name TEXT, addr TEXT, city TEXT, pin TEXT)')
+# conn.execute('CREATE TABLE rescue_mission (district TEXT,name TEXT, addr TEXT, \
+#                city TEXT, pin TEXT, phone TEXT, alt_phone TEXT, no_people SMALLINT, \
+#                no_kids SMALLINT, no_elderly SMALLINT, sick SMALLINT, preg SMALLINT, \
+#                special TEXT, approx_time TEXT, stats TEXT)')
+
 # print("Table created successfully")
-# conn.close()
+conn.close()
 
 @app.route('/')
 def home():

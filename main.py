@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request
 import sqlite3 as sql
 app = Flask(__name__)
+import requests
+from geopy.geocoders import Nominatim
 
-from location_2 import get_address, get_lat_long
+# from location_2 import get_address, get_lat_long
 
 import sqlite3
 
@@ -114,6 +116,15 @@ def rescue_1():
       print(addr)
       print(get_lat_long(addr, ''))
    return render_template('rescue.html')
+
+def get_lat_long(Address_1, Address_2):
+   Address_1 = Address_1.replace(" ","+")
+   Address_2 = Address_2.replace(" ","+")
+   search_address = Address_1+","+Address_2
+   api_link = "https://maps.googleapis.com/maps/api/geocode/json?address="+search_address
+   response = requests.get(api_link)
+   resp_json_payload = response.json()
+   return(resp_json_payload['results'][0]['geometry']['location'])
 
 @app.route('/list', methods = ['POST', 'GET'])
 def list():

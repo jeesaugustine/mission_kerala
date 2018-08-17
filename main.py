@@ -49,7 +49,7 @@ def addrec():
             print('successfully')
             con.commit()
             # msg = "Record successfully added"
-            msg = "നിങ്ങളുടെ വിവരങ്ങൾ റെസ്ക്യൂ ടീമിന് കൈമാറിയിരിക്കുന്നു. റെസ്ക്യൂ ടീം നിങ്ങളുടെ അടുക്കലേക്കു വന്നു കൊണ്ടിരിക്കുന്നു. <br /> Rescue Team has your recored wait patiently. We are servicing your request."
+            msg = "നന്ദി, നിങ്ങളുടെ വിവരങ്ങൾ റെസ്ക്യൂ ടീമിന് കൈമാറിയിരിക്കുന്നു. റെസ്ക്യൂ ടീം നിങ്ങളുടെ അടുക്കലേക്കു വന്നു കൊണ്ടിരിക്കുന്നു. <br /> Rescue Team has your recored wait patiently. We are servicing your request."
       except:
          con.rollback()
          msg = "error in insert operation"
@@ -58,13 +58,13 @@ def addrec():
          return render_template("result.html",msg = msg)
          con.close()
 
-@app.route('/list')
+@app.route('/list', methods = ['POST', 'GET'])
 def list():
    con = sql.connect("database.db")
    con.row_factory = sql.Row
    
    cur = con.cursor()
-   cur.execute("select * from students")
+   cur.execute("select * from rescue_kerala_1")
    
    rows = cur.fetchall();
    return render_template("list.html",rows = rows)

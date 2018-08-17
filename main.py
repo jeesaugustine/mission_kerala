@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import sqlite3 as sql
 app = Flask(__name__)
 
-# from location_2 import get_address, get_lat_long
+from location_2 import get_address, get_lat_long
 
 import sqlite3
 
@@ -111,8 +111,8 @@ def rescue_1():
    if request.method == 'POST':
       print('Hi')
       addr = request.form['add']
-      # print(addr)
-      # print(get_lat_long(addr, ''))
+      print(addr)
+      print(get_lat_long(addr, ''))
    return render_template('rescue.html')
 
 @app.route('/list', methods = ['POST', 'GET'])

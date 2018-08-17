@@ -7,10 +7,10 @@ import sqlite3
 conn = sqlite3.connect('database.db')
 print("Opened database successfully")
 
-conn.execute('CREATE TABLE rescue_kerala (emergency TEXT, district TEXT,name TEXT, addr TEXT, \
-               pin TEXT, phone TEXT, alt_phone TEXT, no_people SMALLINT, \
-               no_kids SMALLINT, no_elderly SMALLINT, sick SMALLINT, preg SMALLINT, \
-               special TEXT, approx_time TEXT, stats TEXT)')
+#conn.execute('CREATE TABLE rescue_kerala (emergency TEXT, district TEXT,name TEXT, addr TEXT, \
+#               pin TEXT, phone TEXT, alt_phone TEXT, no_people SMALLINT, \
+#               no_kids SMALLINT, no_elderly SMALLINT, sick SMALLINT, preg SMALLINT, \
+#               special TEXT, approx_time TEXT, stats TEXT)')
 
 print("Table created successfully")
 conn.close()
@@ -26,36 +26,54 @@ def new_student():
 @app.route('/addrec',methods = ['POST', 'GET'])
 def addrec():
    if request.method == 'POST':
+      print('jees')
       try:
+
          emergency_ = request.form['emer']
          district_ = request.form['dist']
-         name_ = request.form['nme']
+         fname = request.form['fname']
          address_ = request.form['add']
+ 
          phone_ = request.form['phone_']
+
          alt_phone_ = request.form['alt_phone_']
+
          pin = request.form['pin']
-         kids_ = request.form['kids']
-         total_ = request.form['total_']
-         elderly_ = request.form['elderly_']
-         pregnent_ = request.form['pregnent_']
-         sick_ = request.form['sick_']
+
+         kids_ = 'Null'
+         elderly_ = 'Null'
+         pregnent_ = 'Null'
+         sick_ = 'Null'
          
-         with sql.connect("database.db") as con:
-            cur = con.cursor()
-            
-            cur.execute("INSERT INTO rescue_kerala \
-                        (emergency, district,name, addr,pin, phone, alt_phone\
-                        no_people, no_kids, no_elderly, sick, preg, \
-                        ) VALUES (?,?,?,?)",(nm,addr,city,pin) )
-            
-            con.commit()
-            msg = "Record successfully added"
+         total_ = request.form['total_']
+
+         kids_ = request.form['kids']
+
+         elderly_ = request.form['elderly_']
+
+         pregnent_ = request.form['pregnent_']
+         print(pregnent_)
+         sick_ = request.form['sick_']
+         print('Ma')
+         print(pregnent_)
+         msg = 'STart'
+         print(emergency_, district_, fname, address_, phone_, alt_phone_, pin, kids_, total_, elderly_, pregnent_, sick_, msg)
+         # with sql.connect("database.db") as con:
+         #    cur = con.cursor()
+         #    print('Curser started ')
+         #    cur.execute("INSERT INTO rescue_kerala \
+         #                (emergency, district,name, addr,pin, phone, alt_phone\
+         #                no_people, no_kids, no_elderly, sick, preg, \
+         #                ) VALUES (?,?,?,?, ?,?,?,?, ?,?,?,?)",(emer,dist,nme,add, phone_, alt_phone_, pin, kids, kids, elderly_, elderly_, sick_) )
+         #    print('successfully')
+         #    con.commit()
+         #    msg = "Record successfully added"
       except:
          con.rollback()
          msg = "error in insert operation"
       
       finally:
-         return render_template("result.html",msg = msg)
+         return render_template("result.html",msg = 'Jees')
          con.close()
 
 @app.route('/list')

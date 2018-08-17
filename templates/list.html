@@ -10,17 +10,17 @@
       <table border = 1>
          <thead>
             <td>Name</td>
+            <td>Number of People to save</td>
             <td>Address</td>
-            <td>city</td>
-            <td>Pincode</td>
+            <td>Phone</td>
          </thead>
 
          {% for row in rows %}
          <tr>
             <td>{{row["name"]}}</td>
-            <td>{{row["addr"]}}</td>
-            <td> {{ row["city"]}}</td>
-            <td>{{row['pin']}}</td>	
+            <td>{{row["no_people"]}}</td>
+            <td> {{ row["addr"]}}</td>
+            <td>{{row['phone']}}</td>	
          </tr>
          {% endfor %}
       </table>

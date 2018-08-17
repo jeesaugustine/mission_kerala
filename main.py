@@ -7,12 +7,8 @@ import sqlite3
 conn = sqlite3.connect('database.db')
 print("Opened database successfully")
 
-#-- conn.execute('CREATE TABLE rescue_kerala_1 (emergency TEXT, district TEXT,name TEXT, addr TEXT, \
-#--               pin TEXT, phone TEXT, alt_phone TEXT, no_people TEXT, \
-#--               no_kids TEXT, no_elderly TEXT, sick TEXT, preg TEXT, \
-#--               special TEXT, approx_time TEXT, stats TEXT)')
-
-print("Table created successfully")
+# conn.execute('CREATE TABLE rescue_kerala_1 (emergency TEXT, district TEXT,name TEXT, addr TEXT, pin TEXT, phone TEXT, alt_phone TEXT, no_people TEXT, no_kids TEXT, no_elderly TEXT, sick TEXT, preg TEXT, special TEXT, approx_time TEXT, stats TEXT)')
+# print("Table created successfully")
 conn.close()
 
 @app.route('/')
@@ -29,44 +25,31 @@ def addrec():
       print('jees')
       try:
 
-         emergency_ = request.form['emer']
+         emergency_ = request.form['emer']   
          district_ = request.form['dist']
-         fname = request.form['fname']
+         namer = request.form['fname_']
+         # print(namer)
          address_ = request.form['add']
- 
-         phone_ = request.form['phone_']
-
-         alt_phone_ = request.form['alt_phone_']
-
          pin = request.form['pin']
-
-         kids_ = 'Null'
-         elderly_ = 'Null'
-         pregnent_ = 'Null'
-         sick_ = 'Null'
-         
+         phone_ = request.form['phone_']
+         alt_phone_ = request.form['alt_phone_']
          total_ = request.form['total_']
          kids_ = request.form['kids']
-
          elderly_ = request.form['elderly_']
-         
-         if request.form['pregnent_']:
-            pregnent_ = request.form['pregnent_']
-         
          sick_ = request.form['sick_']
+         pregnent_ = request.form['pregnent_']
          
          msg = 'STart'
-         print(emergency_, district_, fname, address_, phone_, alt_phone_, pin, kids_, total_, elderly_, pregnent_, sick_, msg)
+         print(emergency_, district_, address_, namer, phone_, alt_phone_, pin, total_, kids_, elderly_, pregnent_, sick_, msg)
+         special = 'Jees'
          with sql.connect("database.db") as con:
             cur = con.cursor()
             print('Curser started ')
-            cur.execute("INSERT INTO rescue_kerala_1 \
-                        (emergency, district, name, addr, pin, phone, alt_phone\
-                        no_people, no_kids, no_elderly, sick, preg, \
-                        ) VALUES (?,?,?,?, ?,?,?,?, ?,?,?,?)",(emer,dist,nme,add, phone_, alt_phone_, pin, kids, kids, elderly_, elderly_, sick_) )
+            cur.execute("INSERT INTO rescue_kerala_1 (emergency, district ,name , addr, pin ,phone ,alt_phone ,no_people ,no_kids ,no_elderly ,sick ,preg ,special) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", (emergency_, district_,namer,address_, pin, phone_, alt_phone_, total_, kids_, elderly_, sick_, pregnent_, special))
             print('successfully')
             con.commit()
-            msg = "Record successfully added"
+            # msg = "Record successfully added"
+            msg = "നിങ്ങളുടെ വിവരങ്ങൾ റെസ്ക്യൂ ടീമിന് കൈമാറിയിരിക്കുന്നു. റെസ്ക്യൂ ടീം നിങ്ങളുടെ അടുക്കലേക്കു വന്നു കൊണ്ടിരിക്കുന്നു. <br /> Rescue Team has your recored wait patiently. We are servicing your request."
       except:
          con.rollback()
          msg = "error in insert operation"

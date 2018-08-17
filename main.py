@@ -2,6 +2,8 @@ from flask import Flask, render_template, request
 import sqlite3 as sql
 app = Flask(__name__)
 
+from location_2 import get_address, get_lat_long
+
 import sqlite3
 
 conn = sqlite3.connect('database.db')
@@ -100,6 +102,17 @@ def status_2():
 
 @app.route('/rescue', methods = ['POST', 'GET'])
 def rescue():
+   return render_template('rescue.html')
+   # college of engineering adoor, manakkala PO. adoor, Pathanamthitta
+
+@app.route('/rescue_1', methods = ['POST', 'GET'])
+def rescue_1():
+   print('Hi')
+   if request.method == 'POST':
+      print('Hi')
+      addr = request.form['add']
+      print(addr)
+      print(get_lat_long(addr, ''))
    return render_template('rescue.html')
 
 @app.route('/list', methods = ['POST', 'GET'])

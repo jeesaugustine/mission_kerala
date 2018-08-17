@@ -2,14 +2,21 @@
 <html>
 
    <body>
-
+   <form action = "{{ url_for('yes_2') }}" method = "POST">
    <center>
       <header> <h1> {{ msg }}</h1>
       </header>
       <br> <br>
       
+      <table>
+         <tr>
+            <td>നിങ്ങളുടെ ടോക്കൺ നമ്പർ ഇവിടെ നൽകുക:</td>
+            <td><input type = "text" name = "phone_"><br></td>
+         </tr>
+      </table>
 
       <br>
+      <input type = "submit" value = "submit" /><br>
       <h2> <a href = "/">Home</a> </h2>
    </body>
 </html>

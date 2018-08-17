@@ -56,7 +56,7 @@ def addrec():
          with sql.connect("database.db") as con:
             cur = con.cursor()
             print('Curser started ')
-            cur.execute("INSERT INTO rescue_kerala_1 (emergency, district ,name , addr, pin ,phone ,alt_phone ,no_people ,no_kids ,no_elderly ,sick ,preg ,special, lat, lon) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (emergency_, district_,namer,address_, pin, phone_, alt_phone_, total_, kids_, elderly_, sick_, pregnent_, special, lat, lon))
+            cur.execute("INSERT INTO rescue_kerala_1 (emergency, district ,name , addr, pin ,phone ,alt_phone ,no_people ,no_kids ,no_elderly ,sick ,preg ,special, lat, lon, stats) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (emergency_, district_,namer,address_, pin, phone_, alt_phone_, total_, kids_, elderly_, sick_, pregnent_, special, lat, lon, 'n'))
             print('successfully')
             con.commit()
             msg = "ടോക്കൺ നമ്പർ(ഫോൺ നമ്പർ)-  " + token + " നിങ്ങൾക്ക് ലഭിച്ചിരിക്കുന്ന ടോക്കൺ നമ്പർ ദയവായി സൂക്ഷിക്കുക. ഈ നമ്പർ ഉപയോഗിച്ച് നിങ്ങൾക്ക് റെസ്ക്യൂ സംഘത്തെ ട്രാക്ക് ചെയ്യാവുന്നതാണ്. നിങ്ങൾ സുരക്ഷിത സ്ഥാനത്തെത്തിയാൽ ദയവായി ഈ ടോക്കൺ നമ്പർ ഉപയോഗിച്ച് രക്ഷപെട്ടു എന്ന്  രേഖപ്പെടുത്തുക.<br /> Rescue Team has your recored wait patiently. We are servicing your request."
@@ -79,36 +79,61 @@ def status_1():
          msg = 'nice'
          phone_ = request.form['phone_']
          print(phone_)
+         # session['phone'] = phone_
          con = sql.connect("database.db")
          con.row_factory = sql.Row
          cur = con.cursor()
-         query = "select name, district from rescue_kerala_1 where phone=" + str(phone_)
+         query = "select name, district from rescue_kerala_1 where phone=" + str(phone_) + " and stats=\'n\'"
          print(query)
          cur.execute(query)
          rows = cur.fetchall();
-
-         d = {'alp': 'ആലപ്പുഴ(Alappuzha)', 'ekm': 'എറണാകുളം(Ernakulam)', 'idk':'ഇടുക്കി(Idukki)', 'knr':'കണ്ണൂർ(Kannur)', 'kol':'കാസർഗോഡ്(Kasaragod)', 'klm':'കൊല്ലം(Kollam)','ktm':'കോട്ടയം(Kottayam)','koz':'കോഴിക്കോട്(Kozhikode)','mpm':'മലപ്പുറം(Malappuram)', 'pkd':'പാലക്കാട്(Palakkad)', 'ptm':'പത്തനംതിട്ട(Pathanamthitta)', 'tvm':'തിരുവനന്തപുരം(Thiruvananthapuram)', 'tcr':'തൃശ്ശൂർ(Thrissur)', 'wnd':'വയനാട്(Wayanad)'}
-         dist = str(rows[0][1])
-         d = d[dist]
-         mesage = 'പേര് - name ' + str(rows[0][0]) + ' സ്ഥലം - district ' + d
-         print(mesage)
-         return render_template("list_first.html",rows = mesage)
-
+         print(rows)
+         if rows:
+            d = {'alp': 'ആലപ്പുഴ(Alappuzha)', 'ekm': 'എറണാകുളം(Ernakulam)', 'idk':'ഇടുക്കി(Idukki)', 'knr':'കണ്ണൂർ(Kannur)', 'kol':'കാസർഗോഡ്(Kasaragod)', 'klm':'കൊല്ലം(Kollam)','ktm':'കോട്ടയം(Kottayam)','koz':'കോഴിക്കോട്(Kozhikode)','mpm':'മലപ്പുറം(Malappuram)', 'pkd':'പാലക്കാട്(Palakkad)', 'ptm':'പത്തനംതിട്ട(Pathanamthitta)', 'tvm':'തിരുവനന്തപുരം(Thiruvananthapuram)', 'tcr':'തൃശ്ശൂർ(Thrissur)', 'wnd':'വയനാട്(Wayanad)'}
+            dist = str(rows[0][1])
+            d = d[dist]
+            mesage = 'പേര് - name ' + str(rows[0][0]) + ' സ്ഥലം - district ' + d
+            print(mesage)
+            return render_template("list_first.html",rows = mesage)
+         else:
+            return render_template("list_no.html",rows = 'Nothing to return')
       except:
          con.rollback()
          msg = "error in select operation"
       finally:
-         return render_template("list_first.html",msg = mesage)
-         con.close()
+         if rows:
+            return render_template("list_first.html",msg = mesage)
+            con.close()
+         else:
+            return render_template("list_no.html",msg = 'Nothing to return')
 
 @app.route('/status_2', methods = ['POST', 'GET'])
 def status_2():
    if request.method == 'POST':
+      # phone_ = session.get('phone', None)
+      # print(phone_)
+      # p = request.form['firstbox']
+      # print(p)
       stat = request.form['status__']
       if stat == 'no':
          return render_template("list_no.html", msg = 'നിങ്ങളുടെ വിവരങ്ങൾ റെസ്ക്യൂ ടീമിന് കൈമാറിയിരിക്കുന്നു. റെസ്ക്യൂ ടീം നിങ്ങളുടെ അടുക്കലേക്കു വന്നു കൊണ്ടിരിക്കുന്നു. Your details have been forwarded to the rescue team. They are on the way.')
       else:
          return render_template("list_yes.html", msg = 'ആവശ്യപ്പെട്ട സേവനം ലഭിച്ചിരിക്കുന്നു. Requested service accomplished.')
+
+@app.route('/yes_2', methods = ['POST', 'GET'])
+def yes_2():
+   if request.method == 'POST':
+      phone_ = request.form['phone_']
+      con = sql.connect("database.db")
+      con.row_factory = sql.Row
+      query = "UPDATE rescue_kerala_1 SET stats=\'r\' WHERE phone=" + str(phone_)
+      print(query)
+      cur = con.cursor()
+      cur.execute(query)
+      rows = cur.fetchall();
+      con.commit()
+      return render_template("list_no.html",msg = 'Your request is updated')
+
 
 @app.route('/rescue', methods = ['POST', 'GET'])
 def rescue():

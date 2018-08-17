@@ -156,7 +156,7 @@ def rescue_1():
       con.row_factory = sql.Row
    
       cur = con.cursor()
-      query = "select addr, no_people  from rescue_kerala_1 where lat>" + str(new_rad_2) + 'and lat<' + str(new_rad_1) + 'and lon>' + str(new_lon_2) + 'and lon<' + new_lon_1 + 'order by no_people'
+      query = "select addr, no_people  from rescue_kerala_1 where lat>" + str(new_rad_2) + ' and lat<' + str(new_rad_1) + ' and lon>' + str(new_lon_2) + ' and lon<' + str(new_lon_1) + ' order by no_people'
       print(query)
       cur.execute(query)
       rows = cur.fetchall();

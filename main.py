@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import sqlite3 as sql
 app = Flask(__name__)
+
 import requests
 from geopy.geocoders import Nominatim
 
@@ -11,7 +12,7 @@ import sqlite3
 conn = sqlite3.connect('database.db')
 print("Opened database successfully")
 
-# conn.execute('CREATE TABLE rescue_kerala_1 (emergency TEXT, district TEXT,name TEXT, addr TEXT, pin TEXT, phone TEXT, alt_phone TEXT, no_people TEXT, no_kids TEXT, no_elderly TEXT, sick TEXT, preg TEXT, special TEXT, approx_time TEXT, stats TEXT)')
+# conn.execute('CREATE TABLE rescue_kerala_1 (emergency TEXT, district TEXT,name TEXT, addr TEXT, pin TEXT, phone TEXT, alt_phone TEXT, no_people TEXT, no_kids TEXT, no_elderly TEXT, sick TEXT, preg TEXT, special TEXT, approx_time TEXT, stats TEXT, lat TEXT, lon TEXT)')
 # print("Table created successfully")
 conn.close()
 
@@ -31,7 +32,7 @@ def addrec():
          emergency_ = request.form['emer']   
          district_ = request.form['dist']
          namer = request.form['fname_']
-         # print(namer)
+         
          address_ = request.form['add']
          pin = request.form['pin']
          phone_ = request.form['phone_']
@@ -42,13 +43,19 @@ def addrec():
          sick_ = request.form['sick_']
          pregnent_ = request.form['pregnent_']
          token = phone_
+
+         lat_long = get_lat_long(address_, '')
+         # print(lat_long)
+         lat = lat_long['lat']
+         lon = lat_long['lng']
          msg = 'Start'
+         # print(lat, lon)
          print(emergency_, district_, address_, namer, phone_, alt_phone_, pin, total_, kids_, elderly_, pregnent_, sick_, msg)
          special = 'Jees'
          with sql.connect("database.db") as con:
             cur = con.cursor()
             print('Curser started ')
-            cur.execute("INSERT INTO rescue_kerala_1 (emergency, district ,name , addr, pin ,phone ,alt_phone ,no_people ,no_kids ,no_elderly ,sick ,preg ,special) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", (emergency_, district_,namer,address_, pin, phone_, alt_phone_, total_, kids_, elderly_, sick_, pregnent_, special))
+            cur.execute("INSERT INTO rescue_kerala_1 (emergency, district ,name , addr, pin ,phone ,alt_phone ,no_people ,no_kids ,no_elderly ,sick ,preg ,special, lat, lon) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (emergency_, district_,namer,address_, pin, phone_, alt_phone_, total_, kids_, elderly_, sick_, pregnent_, special, lat, lon))
             print('successfully')
             con.commit()
             msg = "ടോക്കൺ നമ്പർ(ഫോൺ നമ്പർ)-  " + token + " നിങ്ങൾക്ക് ലഭിച്ചിരിക്കുന്ന ടോക്കൺ നമ്പർ ദയവായി സൂക്ഷിക്കുക. ഈ നമ്പർ ഉപയോഗിച്ച് നിങ്ങൾക്ക് റെസ്ക്യൂ സംഘത്തെ ട്രാക്ക് ചെയ്യാവുന്നതാണ്. നിങ്ങൾ സുരക്ഷിത സ്ഥാനത്തെത്തിയാൽ ദയവായി ഈ ടോക്കൺ നമ്പർ ഉപയോഗിച്ച് രക്ഷപെട്ടു എന്ന്  രേഖപ്പെടുത്തുക.<br /> Rescue Team has your recored wait patiently. We are servicing your request."
@@ -114,8 +121,48 @@ def rescue_1():
       print('Hi')
       addr = request.form['add']
       print(addr)
-      print(get_lat_long(addr, ''))
-   return render_template('rescue.html')
+      lat_long = get_lat_long(addr, '')
+      radi = request.form['radius']
+      lat = 0.009
+      if str(radi) == 'one':
+         new_rad_1 = lat_long['lat'] + lat
+         new_rad_2 = lat_long['lat'] - lat
+      elif str(radi) == 'two':
+         new_rad_1 = lat_long['lat'] + 2*lat
+         new_rad_2 = lat_long['lat'] - 2*lat
+      elif str(radi) == 'three':
+         new_rad_1 = lat_long['lat'] + 3*lat
+         new_rad_2 = lat_long['lat'] - 3*lat
+      elif str(radi) == 'five':
+         new_rad_1 = lat_long['lat'] + 5*lat
+         new_rad_2 = lat_long['lat'] - 3*lat
+
+      lon = 0.011
+      if str(radi) == 'one':
+         new_lon_1 = lat_long['lng'] + lon
+         new_lon_2 = lat_long['lng'] - lon
+      elif str(radi) == 'two':
+         new_lon_1 = lat_long['lng'] + 2*lon
+         new_lon_2 = lat_long['lng'] - 2*lon
+      elif str(radi) == 'three':
+         new_lon_1 = lat_long['lng'] + 3*lon
+         new_lon_2 = lat_long['lng'] - 3*lon
+      elif str(radi) == 'five':
+         new_lon_1 = lat_long['lng'] + 5*lon
+         new_lon_2 = lat_long['lng'] - 5*lon
+
+
+      con = sql.connect("database.db")
+      con.row_factory = sql.Row
+   
+      cur = con.cursor()
+      query = "select addr, no_people  from rescue_kerala_1 where lat>" + str(new_rad_2) + 'and lat<' + str(new_rad_1) + 'and lon>' + str(new_lon_2) + 'and lon<' + new_lon_1 + 'order by no_people'
+      print(query)
+      cur.execute(query)
+      rows = cur.fetchall();
+      return render_template("list.html",rows = rows)
+
+      # return render_template('rescue.html')
 
 def get_lat_long(Address_1, Address_2):
    Address_1 = Address_1.replace(" ","+")

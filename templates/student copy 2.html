@@ -1,7 +1,28 @@
 <html>
-   <body>      
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script>
+function showlocation() {
+	navigator.geolocation.getCurrentPosition(function(position) {
+		callback(position.coords.latitude, position.coords.longitude);
+	});
+}
+
+function callback(lat,lon) {
+	document.getElementById('latitude').innerHTML = lat;
+	document.getElementById('longitude').innerHTML = lon;
+
+document.getElementById('latitude1').value = lat;
+document.getElementById('longitude1').value = lon;
+
+}
+</script>
+<script>showlocation();</script>
+
+   <body>
       <center>
-      <header> <h1> Information Request Portal </h1> </header>
+      <header> <h1> Information Requst Portal </h1> </header>
       <br> <br>
       <form action = "{{ url_for('addrec') }}" method = "POST">
       <h3>Rescue Operation Information</h3>
@@ -10,8 +31,8 @@
          <tr>
             <td>അടിയന്തിര സാഹചര്യം എന്താണ്? - Nature of Emergency</td>
             <td>  <select name = "emer">
-                     <option value="med">അത്യാവശ്യ വൈദ്യസഹായം(പ്രസവ വേദന, പാമ്പു കടി, അബോധാവസ്ഥ) Emergency Medical Care (Delivery, SnakeBite, Unconsciousness)</option>
-                     <option value="move">സുരക്ഷിത സ്ഥാനത്തേക്ക് മാറണം(Move to a safe place)</option>
+                     <option value="med">അത്യാവശ്യ വൈദ്യസഹായം(പ്രസവ വേദന, പാമ്പു കടി , അബോധാവസ്ഥ(Emergency Medical Care (Delivery, SnakeBite, Unconcious)</option>
+                     <option value="move">സുരക്ഷിത സ്ഥാനത്തേക്ക് മാറണം(Move to a safe palce)</option>
                      <option value="food">ഭക്ഷണം, വസ്ത്രം, മരുന്ന്(Dress, Medicine, Food, Water)</option>
                   </select> </td>
          <tr>
@@ -33,13 +54,21 @@
                   <option value="tcr">തൃശ്ശൂർ(Thrissur)</option>
                   <option value="wnd">വയനാട്(Wayanad)</option>
                </select>
-            </td> 
+            </td>
          </tr>
          <tr>
             <td>
                 പേര് - Name:
             </td>
             <td><input type = "text" name = "fname_"><br></td>
+         </tr>
+         <tr>
+            <td>വിലാസം - Address Latitude</td>
+            <td id = "latitude"><br></td>
+         </tr>
+         <tr>
+            <td>വിലാസം - Address Longitude</td>
+            <td id = "longitude"><br></td>
          </tr>
          <tr>
             <td>വിലാസം - Address</td>
@@ -86,7 +115,7 @@
             </td>
          </tr>
          <tr>
-            <td>ഗർഭിണികൾ - Pregnant </td>
+            <td>ഗർഭിണികൾ - Pregnent </td>
             <td><select name = "pregnent_">
                   <option value="yes">ഇല്ല - No</option>
                   <option value="no">ഉണ്ട് - Yes</option>
@@ -106,10 +135,10 @@
    submit ബട്ടൺ അമർത്തുന്നതിനു മുൻപ്, ശരിയായ വിലാസം ആണ് നൽകിയിരിക്കുന്നതെന്ന് ഉറപ്പു വരുത്തുക.
    <br><br>
       <input type = "submit" value = "submit" /><br>
-      
+
       </form>
       <br>
       <h2> <a href = "/">Home</a> </h2>
-      
+
    </body>
 </html>

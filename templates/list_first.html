@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+
+   <body>
+   <form action = "{{ url_for('status_2') }}" method = "POST">
+   <center>
+      <h1> {{ msg }}</h1>
+      <h2>നിങ്ങൾ ആവശ്യപ്പെട്ട സേവനം ലഭിച്ചോ? </h2>
+      <select name = "status__">
+                  <option value="no">ഇല്ല - No</option>
+                  <option value="yes">ഉണ്ട് - Yes</option>
+               </select>
+
+      <br> 
+      <input type = "submit" value = "submit" /><br>
+      <h2> <a href = "/">Home</a> </h2>
+   </body>
+</html>

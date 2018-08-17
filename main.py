@@ -182,11 +182,14 @@ def rescue_1():
       con.row_factory = sql.Row
    
       cur = con.cursor()
-      query = "select name, addr, no_people, phone  from rescue_kerala_1 where lat>" + str(new_rad_2) + ' and lat<' + str(new_rad_1) + ' and lon>' + str(new_lon_2) + ' and lon<' + str(new_lon_1) + ' order by no_people'
+      query = "select name, addr, no_people, phone  from rescue_kerala_1 where lat>" + str(new_rad_2) + ' and lat<' + str(new_rad_1) + ' and lon>' + str(new_lon_2) + ' and lon<' + str(new_lon_1) + " and stats=\'n\'" +' order by no_people'
       print(query)
       cur.execute(query)
       rows = cur.fetchall();
-      return render_template("list.html",rows = rows)
+      if rows:
+         return render_template("list.html",rows = rows)
+      else:
+         return render_template("list_no.html",msg = "No request found in this range")
 
       # return render_template('rescue.html')
 

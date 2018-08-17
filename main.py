@@ -47,7 +47,7 @@ def addrec():
             cur.execute("INSERT INTO rescue_kerala_1 (emergency, district ,name , addr, pin ,phone ,alt_phone ,no_people ,no_kids ,no_elderly ,sick ,preg ,special) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", (emergency_, district_,namer,address_, pin, phone_, alt_phone_, total_, kids_, elderly_, sick_, pregnent_, special))
             print('successfully')
             con.commit()
-            msg = "ടോക്കൺ നമ്പർ -  " + token + " നിങ്ങൾക്ക് ലഭിച്ചിരിക്കുന്ന ടോക്കൺ നമ്പർ ദയവായി സൂക്ഷിക്കുക. ഈ നമ്പർ ഉപയോഗിച്ച് നിങ്ങൾക്ക് റെസ്ക്യൂ സംഘത്തെ ട്രാക്ക് ചെയ്യാവുന്നതാണ്. നിങ്ങൾ സുരക്ഷിത സ്ഥാനത്തെത്തിയാൽ ദയവായി ഈ ടോക്കൺ നമ്പർ ഉപയോഗിച്ച് രക്ഷപെട്ടു എന്ന്  രേഖപ്പെടുത്തുക.<br /> Rescue Team has your recored wait patiently. We are servicing your request."
+            msg = "ടോക്കൺ നമ്പർ(ഫോൺ നമ്പർ)-  " + token + " നിങ്ങൾക്ക് ലഭിച്ചിരിക്കുന്ന ടോക്കൺ നമ്പർ ദയവായി സൂക്ഷിക്കുക. ഈ നമ്പർ ഉപയോഗിച്ച് നിങ്ങൾക്ക് റെസ്ക്യൂ സംഘത്തെ ട്രാക്ക് ചെയ്യാവുന്നതാണ്. നിങ്ങൾ സുരക്ഷിത സ്ഥാനത്തെത്തിയാൽ ദയവായി ഈ ടോക്കൺ നമ്പർ ഉപയോഗിച്ച് രക്ഷപെട്ടു എന്ന്  രേഖപ്പെടുത്തുക.<br /> Rescue Team has your recored wait patiently. We are servicing your request."
       except:
          con.rollback()
          msg = "error in insert operation"
@@ -98,6 +98,9 @@ def status_2():
       else:
          return render_template("list_yes.html", msg = 'ആവശ്യപ്പെട്ട സേവനം ലഭിച്ചിരിക്കുന്നു. Requested service accomplished.')
 
+@app.route('/rescue', methods = ['POST', 'GET'])
+def rescue():
+   return render_template('rescue.html')
 
 @app.route('/list', methods = ['POST', 'GET'])
 def list():

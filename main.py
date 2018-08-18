@@ -29,22 +29,31 @@ def addrec():
    if request.method == 'POST':
       print('jees')
       try:
-         emergency_ = request.form['emer']   
+         emergency_ = request.form['emer']
+
          district_ = request.form['dist']
          namer = request.form['fname_']
-         
+         print(district_)
          address_ = request.form['add']
          pin = request.form['pin']
          phone_ = request.form['phone_']
          alt_phone_ = request.form['alt_phone_']
          total_ = request.form['total_']
+
          kids_ = request.form['kids']
          elderly_ = request.form['elderly_']
          sick_ = request.form['sick_']
          pregnent_ = request.form['pregnent_']
+
          token = phone_
 
-         lat_long = get_lat_long(address_, '')
+         d = {'alp': 'ആലപ്പുഴ(Alappuzha)', 'ekm': 'എറണാകുളം(Ernakulam)', 'idk':'ഇടുക്കി(Idukki)', 'knr':'കണ്ണൂർ(Kannur)', 'kol':'കാസർഗോഡ്(Kasaragod)', 'klm':'കൊല്ലം(Kollam)','ktm':'കോട്ടയം(Kottayam)','koz':'കോഴിക്കോട്(Kozhikode)','mpm':'മലപ്പുറം(Malappuram)', 'pkd':'പാലക്കാട്(Palakkad)', 'ptm':'പത്തനംതിട്ട(Pathanamthitta)', 'tvm':'തിരുവനന്തപുരം(Thiruvananthapuram)', 'tcr':'തൃശ്ശൂർ(Thrissur)', 'wnd':'വയനാട്(Wayanad)'}
+         place_holder = d[district_].split('(')[1].split(')')[0].strip()
+         try:
+            lat_long = get_lat_long(address_, '')
+         except:
+            lat_long = get_lat_long(place_holder, '')
+         
          # print(lat_long)
          lat = lat_long['lat']
          lon = lat_long['lng']
@@ -63,7 +72,7 @@ def addrec():
       except:
          con.rollback()
          msg = "error in insert operation"
-      
+
       finally:
          return render_template("result.html",msg = msg)
          con.close()
@@ -134,6 +143,17 @@ def yes_2():
       con.commit()
       return render_template("list_no.html",msg = 'Your request is updated')
 
+@app.route('/emergency_ph', methods = ['POST', 'GET'])
+def emergency_ph():
+   return render_template('Emergency_Numbers.html')
+
+@app.route('/social', methods = ['POST', 'GET'])
+def social():
+   return render_template('social.html')
+
+@app.route('/about', methods = ['POST', 'GET'])
+def about():
+   return render_template('about.html')
 
 @app.route('/rescue', methods = ['POST', 'GET'])
 def rescue():
@@ -163,6 +183,7 @@ def rescue_1():
          new_rad_1 = lat_long['lat'] + 5*lat
          new_rad_2 = lat_long['lat'] - 3*lat
 
+
       lon = 0.011
       if str(radi) == 'one':
          new_lon_1 = lat_long['lng'] + lon
@@ -180,16 +201,16 @@ def rescue_1():
 
       con = sql.connect("database.db")
       con.row_factory = sql.Row
-   
+
       cur = con.cursor()
-      query = "select name, addr, no_people, phone  from rescue_kerala_1 where lat>" + str(new_rad_2) + ' and lat<' + str(new_rad_1) + ' and lon>' + str(new_lon_2) + ' and lon<' + str(new_lon_1) + " and stats=\'n\'" +' order by no_people'
+      query = "select name, addr, no_people, phone  from rescue_kerala_1 where lat>=" + str(new_rad_2) + ' and lat<=' + str(new_rad_1) + ' and lon>=' + str(new_lon_2) + ' and lon<=' + str(new_lon_1) + " and stats=\'n\'" +' order by no_people'
       print(query)
       cur.execute(query)
       rows = cur.fetchall();
       if rows:
          return render_template("list.html",rows = rows)
       else:
-         return render_template("list_no.html",msg = "No request found in this range")
+         return render_template("list_no.html",msg = "ഈ ചുറ്റളവിൽ രക്ഷാഡൗത്യം അന്വേഷിക്കുന്ന ആരും തന്നെ ഇല്ല. ദയവായി കൂടുതൽ സെർച്ച് ദൂരത്തേക്ക് വ്യാപിപ്പിക്കുക.അല്ലെങ്കിൽ നിങ്ങൾ എല്ലാവര്‌യും രക്ഷിച്ചിരിക്കുന്നു. -No request found in this range, please expand your search radius. Or you have saved everyone in this range")
 
       # return render_template('rescue.html')
 
@@ -206,10 +227,10 @@ def get_lat_long(Address_1, Address_2):
 def list():
    con = sql.connect("database.db")
    con.row_factory = sql.Row
-   
+
    cur = con.cursor()
    cur.execute("select * from rescue_kerala_1")
-   
+
    rows = cur.fetchall();
    return render_template("list.html",rows = rows)
 

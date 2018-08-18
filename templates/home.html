@@ -1,24 +1,74 @@
 <!doctype html>
 <!-- Developed by Jees Augustine, Balan Ramesh, Jiss Sebastian and Sandeep Eldo -->
+<header>
+<style>
+	.button {
+			background-color: #C7C7C7;
+			border: black;
+			color: black;
+			padding: 15px 32px;
+			text-align: center;
+			line-height: 22px;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 5px 5px;
+			cursor: pointer;
+			height:200px;
+			width:240px;
+			display:inline-block;
+
+	}
+	.button:hover {
+			background-color: #2ECC71;
+	}
+	input[type=submit] {
+	    width: 20%;
+	    background-color: #4CAF50;
+	    color: white;
+	    padding: 14px 20px;
+	    margin: 8px 0;
+	    border: none;
+	    border-radius: 4px;
+	    cursor: pointer;
+	}
+
+	input[type=submit]:hover {
+	    background-color: #45a049;
+	}
+	body {
+	  background-color: #EAEAEA;
+	}
+	</style>
+</header>
 <script>
 	function myFunction() {
-		alert("നിങ്ങളുടെ ലൊക്കേഷൻ ഷെയർ ചെയ്യാൻ അനുവദിക്കുക അതിനായി \"Allow\"  അമർത്തുക.");		
+		alert("നിങ്ങളുടെ ലൊക്കേഷൻ ഷെയർ ചെയ്യാൻ അനുവദിക്കുക അതിനായി \"Allow\"  അമർത്തുക.");
 	}
 </script>
 
 <html>
 		<body onload="myFunction()">
-		
+
 		<center>
-		<header> <h1> Home </h1> </header>
+		<header> <h1> Save Kerala </h1> </header>
 		<br> <br>
-		<h2> Save Kerala </h2>
+		<h2> ഈ വെബ്സൈറ്റ് പ്രളയബാധിതരെ സഹായിക്കാനും ട്രാക്ക് ചെയ്യാനും വേണ്ടി ഉപയോഗിക്കുക. <br>
+			Use This website to request help, track victim's status and rescue center coordination. </h2>
 		<br>
 
-		<h2><a href = "/enternew">New Request</a></h2> <br>
-		<!-- <h2><a href = "/list">Nul</a></h2> -->
-		<h2><a href = "/status">Check your status</a></h2><br>
-		<h2><a href = "/rescue">Rescue Center Coordination</a></h2>
-      
+		<h3>
+		<table>
+			<tr><td><a href = "/enternew" class="button">വോളന്റീർസിന്റെ സഹായം അഭ്യർത്ഥിക്കുന്നതിനായി പുതിയ അപേക്ഷ സമർപ്പിക്കുക.<br>To Request Help from Volunteers <br> New Request</a></td>
+			<td><a href = "/status" class="button"> സമർപ്പിച്ച അപേക്ഷ ട്രാക്ക് ചെയ്യുക.<br>To check the status of requested victims.<br> Check your status </a></td>
+			<td><a href = "/rescue" class="button">റെസ്ക്യൂ സെന്റർ വോളന്റീർ/കോഓർഡിനേറ്റർ <br>Rescue Center Coordination <br> Rescue Team Resources</a></td></tr>
+			<tr><td><a href = "/emergency_ph" class="button">അടിയന്തര സഹായത്തിനായുള്ള ഫോൺ നമ്പരുകൾ.<br>Emergency Numbers <br> for all districts and cities</a></td>
+			<td><a href = "/social" class="button">ഔദ്യോഗിക സോഷ്യൽ മീഡിയ പേജ്.<br>Official Social Media <br></a></td>
+		</tr>
+		</table>
+		</h3>
 	</body>
+	<footer>
+		<a href = "/about">About Developers | ഡെവലപ്പേഴ്സിനെ അറിയാൻ </a>
+	</footer>
 </html>

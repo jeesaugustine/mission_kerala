@@ -107,7 +107,7 @@ def status_1():
             print(mesage)
             return render_template("list_first.html",rows = mesage)
          else:
-            return render_template("list_no.html",rows = 'Nothing to return')
+            return render_template("list_no.html",rows = 'നിങ്ങൾ ആവശ്യപ്പെട്ട ആളെ രെക്ഷപെടുത്തിയതായി രേഖപ്പെടുത്തിയിരിക്കുന്നു. ഇനിയും ഇവർക്ക് സാധ്യം ലഭിച്ചില്ല എന്ന് നിങ്ങള്ക്ക് സംശയം ഉണ്ടെങ്കിൽ, ദയവായി നിങ്ങൾ ഉപയോഗിച്ച ഫോൺ നമ്പർ പരിശോധിക്കുക അല്ലെങ്കിൽ ഇദ്ദേഹത്തെ നിങ്ങൾ ഫോൺ ഉപയോഗിച്ചു ബന്ധപ്പെടാൻ ശ്രേമിക്കുക. ഞങ്ങളുടെ റെക്കോർഡ് പ്രകാരം ഇദ്ദേഹത്തെ രക്ഷപ്പെടുത്തിയിരിക്കുന്നു- The person you are trying to search, according to our records has been saved already. Please try to check the phone number once again or try contacting the phone number. Our records marked her/him as rescued. Thanks')
       except:
          con.rollback()
          msg = "error in select operation"
@@ -116,7 +116,7 @@ def status_1():
             return render_template("list_first.html",msg = mesage)
             con.close()
          else:
-            return render_template("list_no.html",msg = 'Nothing to return')
+            return render_template("list_no.html",msg = 'നിങ്ങൾ ആവശ്യപ്പെട്ട ആളെ രെക്ഷപെടുത്തിയതായി രേഖപ്പെടുത്തിയിരിക്കുന്നു. ഇനിയും ഇവർക്ക് സാധ്യം ലഭിച്ചില്ല എന്ന് നിങ്ങള്ക്ക് സംശയം ഉണ്ടെങ്കിൽ, ദയവായി നിങ്ങൾ ഉപയോഗിച്ച ഫോൺ നമ്പർ പരിശോധിക്കുക അല്ലെങ്കിൽ ഇദ്ദേഹത്തെ നിങ്ങൾ ഫോൺ ഉപയോഗിച്ചു ബന്ധപ്പെടാൻ ശ്രേമിക്കുക. ഞങ്ങളുടെ റെക്കോർഡ് പ്രകാരം ഇദ്ദേഹത്തെ രക്ഷപ്പെടുത്തിയിരിക്കുന്നു - The person you are trying to search, according to our records has been saved already. Please try to check the phone number once again or try contacting the phone number. Our records marked her/him as rescued. Thanks')
 
 @app.route('/status_2', methods = ['POST', 'GET'])
 def status_2():

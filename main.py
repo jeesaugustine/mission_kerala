@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 import sqlite3 as sql
+from flask import send_from_directory, current_app as app
+
 app = Flask(__name__)
 # <!-- Developed by Jees Augustine, Balan Ramesh, Jiss Sebastian and Sandeep Eldo -->
 import requests
@@ -145,7 +147,10 @@ def yes_2():
 
 @app.route('/emergency_ph', methods = ['POST', 'GET'])
 def emergency_ph():
-   return render_template('Emergency_Numbers.html')
+   print('Jees is here')
+   # return render_template('emergency.html')
+   with open('/static/FloodRedAlertSaveLife.pdf', 'rb') as static_file:
+      return send_file(static_file, attachment_filename='FloodRedAlertSaveLife.pdf')
 
 @app.route('/social', methods = ['POST', 'GET'])
 def social():

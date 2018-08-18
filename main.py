@@ -148,9 +148,10 @@ def yes_2():
 @app.route('/emergency_ph', methods = ['POST', 'GET'])
 def emergency_ph():
    print('Jees is here')
-   # return render_template('emergency.html')
-   with open('/static/FloodRedAlertSaveLife.pdf', 'rb') as static_file:
-      return send_file(static_file, attachment_filename='FloodRedAlertSaveLife.pdf')
+   return render_template('emergency.html')
+   # with open('/static/FloodRedAlertSaveLife.pdf', 'rb') as static_file:
+   #    return send_file(static_file, attachment_filename='FloodRedAlertSaveLife.pdf')
+   # return render_template('social.html')
 
 @app.route('/social', methods = ['POST', 'GET'])
 def social():

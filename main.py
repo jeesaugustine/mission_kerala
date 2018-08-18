@@ -179,6 +179,7 @@ def hidden():
             rows = cur.fetchall()
             print(rows)
 
+
             if rows:
                return render_template("list.html",rows = rows)
             else:
